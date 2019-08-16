@@ -11,7 +11,7 @@ EPSILON = 1e-6  # Small value to avoid divide by zero
 
 LOGGER = logging.getLogger("mlagents.trainers")
 
-POLICY_SCOPE = ""
+POLICY_SCOPE = "policy_network"
 TARGET_SCOPE = "target_network"
 
 

@@ -9,7 +9,7 @@ LOG_STD_MAX = 2
 LOG_STD_MIN = -20
 EPSILON = 1e-6  # Small value to avoid divide by zero
 DISCRETE_TARGET_ENTROPY_SCALE = 0.1  # TODO: Make hyperparameters
-CONTINUOUS_TARGET_ENTROPY_SCALE = 1.0
+CONTINUOUS_TARGET_ENTROPY_SCALE = 0.5
 
 LOGGER = logging.getLogger("mlagents.trainers")
 
@@ -217,9 +217,9 @@ class SACNetwork(LearningModel):
             self.action_probs = all_probs
 
         # Clip and scale output to ensure actions are always within [-1, 1] range.
-        output_post = tf.clip_by_value(self.output_pre, -3, 3) / 3
+        # output_post = tf.clip_by_value(self.output_pre, -3, 3) / 3
         # Extract output for Barracuda
-        self.output = tf.identity(output_post, name="action")
+        self.output = tf.identity(self.output_pre, name="action")
 
         # Get all policy vars
         self.policy_vars = self.get_vars(scope)

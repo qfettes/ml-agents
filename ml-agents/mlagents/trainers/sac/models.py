@@ -216,8 +216,10 @@ class SACNetwork(LearningModel):
 
             self.action_probs = all_probs
 
+        # Clip and scale output to ensure actions are always within [-1, 1] range.
+        output_post = tf.clip_by_value(self.output_pre, -3, 3) / 3
         # Extract output for Barracuda
-        self.output = tf.identity(self.output_pre, name="action")
+        self.output = tf.identity(output_post, name="action")
 
         # Get all policy vars
         self.policy_vars = self.get_vars(scope)
